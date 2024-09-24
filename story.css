@@ -1,0 +1,243 @@
+/* General styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Georgia', serif;
+    background: url("https://t4.ftcdn.net/jpg/01/39/52/69/360_F_139526981_2brQLmY2E1rHZhPhncfrHTVmxqYDH599.jpg") no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Book */
+.book {
+    position: relative;
+    width: 80vw;
+    height: 90vh;
+    max-width: 400px;
+    max-height: 600px;
+    perspective: 2500px;
+    transition: transform 0.5s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.book:hover {
+    transform: scale(1.05);
+}
+
+.paper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.8s ease;
+    transform-origin: left;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.paper.flipped {
+    transform: rotateY(0deg) scale(0.98);
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.paper::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.3), transparent);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: left;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Front Page */
+.front {
+    z-index: 2;
+    background-color: #fff5e1;
+    border-left: 4px solid #e2b436;
+    backface-visibility: hidden;
+    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.front:hover {
+    box-shadow: 10px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Back Page */
+.back {
+    z-index: 1;
+    background-color: #ececec;
+}
+
+/* Fix overlap by adjusting z-index during flip */
+.flipped .front {
+    z-index: 1;
+    transform: rotateY(-180deg);
+}
+
+.front-content, .back-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: fill;
+}
+
+.flipped .back {
+    z-index: 2; /* Ensures back is visible */
+    transform: rotateY(0deg);
+}
+
+.back-content img {
+    transform: scaleX(-1); /* Flip images as well */
+}
+
+/* Page Content */
+.front-content, .back-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Images Fit */
+.paper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Paper flip effect */
+.flipped .front, .flipped .back {
+    transform: rotateY(-180deg);
+}
+
+/* Controller Buttons */
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 20px;
+    transition: transform 0.5s;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover i {
+    color: #636363;
+    transform: scale(1.2); /* Increase icon size on hover */
+}
+
+i {
+    font-size: 60px; /* Increase icon size */
+    color: gray;
+}
+
+/* Paper stack order */
+#p1 { z-index: 8; }
+#p2 { z-index: 7; }
+#p3 { z-index: 6; }
+#p4 { z-index: 5; }
+#p5 { z-index: 4; }
+#p6 { z-index: 3; }
+#p7 { z-index: 2; }
+#p8 { z-index: 1; }
+
+/* Page Hover Effects */
+.paper:hover {
+    transform: rotateY(-10deg);
+}
+
+/* Shadow and Glow */
+.book {
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease-in-out;
+}
+
+.book:hover {
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+.paper:hover {
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(52, 152, 219, 0.5);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .book {
+        width: 95vw;
+        height: 80vh; /* Adjust for better fit */
+    }
+
+    .paper {
+        transform-origin: left;
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.8s ease;
+    }
+
+    .paper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    i {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .book {
+        width: 95vw;
+        height: 60vh; /* Adjust for smaller screens */
+    }
+
+    .paper {
+        transform-origin: left;
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.8s ease;
+    }
+
+    .paper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    i {
+        font-size: 30px;
+    }
+}
